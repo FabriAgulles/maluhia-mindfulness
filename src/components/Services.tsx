@@ -190,7 +190,7 @@ const Services = () => {
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
                     </div>
-                    <div className="p-6 flex-1 flex flex-col">
+                    <div className="p-6 pb-8 flex-1 flex flex-col">
                       <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">
                         {service.title}
                       </h3>
@@ -227,7 +227,7 @@ const Services = () => {
                               "_blank"
                             );
                           }}
-                          className="w-full bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
+                          className="w-full bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold text-sm py-2.5"
                         >
                           {service.ctaText}
                         </Button>

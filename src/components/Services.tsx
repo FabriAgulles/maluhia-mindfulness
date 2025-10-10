@@ -190,7 +190,7 @@ const Services = () => {
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
                     </div>
-                    <div className="p-5 pb-6 flex-1 flex flex-col">
+                    <div className="p-5 pb-8 flex-1 flex flex-col">
                       <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">
                         {service.title}
                       </h3>

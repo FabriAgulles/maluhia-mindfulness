@@ -183,14 +183,14 @@ const Services = () => {
                     }`}
                     onClick={() => toggleExpand(service.id)}
                   >
-                    <div className="relative h-48 md:h-56 overflow-hidden">
+                    <div className="relative h-40 md:h-48 overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
                     </div>
-                    <div className="p-6 flex-1 flex flex-col">
+                    <div className="p-5 pb-6 flex-1 flex flex-col">
                       <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">
                         {service.title}
                       </h3>
@@ -218,7 +218,7 @@ const Services = () => {
                           {service.longDesc}
                         </p>
                       )}
-                      <div className="mt-auto space-y-3">
+                      <div className="mt-auto space-y-2 flex flex-col items-center">
                         <Button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -227,7 +227,7 @@ const Services = () => {
                               "_blank"
                             );
                           }}
-                          className="w-full bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
+                          className="px-8 text-sm py-2.5 bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
                         >
                           {service.ctaText}
                         </Button>

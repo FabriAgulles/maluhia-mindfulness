@@ -13,6 +13,11 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        heading: ['Cormorant Garamond', 'serif'],
+        body: ['Merriweather', 'serif'],
+        cta: ['Poppins', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -46,6 +51,13 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+          alt: "hsl(var(--card-alt))",
+        },
+        cta: {
+          primary: "hsl(var(--cta-primary))",
+          "primary-foreground": "hsl(var(--cta-primary-foreground))",
+          secondary: "hsl(var(--cta-secondary))",
+          "secondary-foreground": "hsl(var(--cta-secondary-foreground))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

@@ -82,7 +82,7 @@ const Hero = () => {
                   onClick={() => scrollToSection("ebook")}
                   size="lg"
                   variant="outline"
-                  className="border-2 border-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/10 font-cta font-bold text-base md:text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="border-2 border-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary hover:text-cta-secondary-foreground font-cta font-bold text-base md:text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                 >
                   Comienza el Ebook 8 semanas
                 </Button>

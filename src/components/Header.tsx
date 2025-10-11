@@ -19,9 +19,12 @@ const Header = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <div className="font-heading text-xl md:text-2xl font-semibold text-primary">
+            <button
+              onClick={() => scrollToSection("inicio")}
+              className="font-heading text-xl md:text-2xl font-semibold text-primary hover:opacity-80 transition-opacity duration-300"
+            >
               Maluhia Mindfulness
-            </div>
+            </button>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8">

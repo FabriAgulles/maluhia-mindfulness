@@ -11,12 +11,12 @@ const Footer = () => {
           </div>
 
           {/* Slogan */}
-          <div className="font-body italic text-foreground">
+          <div className="font-body italic text-foreground text-base">
             Disfruta el aquí y ahora.
           </div>
 
           {/* Copyright */}
-          <div className="text-muted-foreground">
+          <div className="text-muted-foreground text-[9px]">
             © Maluhia Mindfulness - Todos los derechos reservados
           </div>
 

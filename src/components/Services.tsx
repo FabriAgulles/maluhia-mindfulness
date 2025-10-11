@@ -171,7 +171,7 @@ const Services = () => {
               {services.map((service) => (
                 <div
                   key={service.id}
-                  className={`flex-shrink-0 px-2 md:px-4 transition-all duration-500 ${
+                  className={`flex-shrink-0 px-2 md:px-4 py-5 transition-all duration-500 ${
                     isMobile ? "w-full" : "w-1/3"
                   } ${
                     expandedCard === service.id ? "scale-105 z-20" : "scale-100"

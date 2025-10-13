@@ -71,19 +71,18 @@ const Hero = () => {
                 "Respira, sonríe y vuelve al presente, ahí es donde tu vida sucede."
               </p>
 
-              {/* Wrapper actualizado: apilar en móvil y fila en sm+ */}
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   onClick={() => scrollToSection("servicios")}
                   size="lg"
-                  className="w-full sm:w-auto bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+                  className="bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
                 >
                   Descubre los servicios
                 </Button>
                 <Button
                   onClick={() => scrollToSection("ebook")}
                   size="lg"
-                  className="w-full sm:w-auto bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
+                  className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
                 >
                   Comienza el Ebook 8 semanas
                 </Button>

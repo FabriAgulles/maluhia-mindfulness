@@ -74,14 +74,14 @@ const Hero = () => {
                 <Button
                   onClick={() => scrollToSection("servicios")}
                   size="lg"
-                  className="bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold text-base md:text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
                 >
                   Descubre los servicios
                 </Button>
                 <Button
                   onClick={() => scrollToSection("ebook")}
                   size="lg"
-                  className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-base md:text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-base md:text-lg px-4 sm:px-8 py-3 sm:py-6 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
                 >
                   Comienza el Ebook 8 semanas
                 </Button>

@@ -34,9 +34,9 @@ const Hero = () => {
     <section
       id="inicio"
       ref={heroRef}
-      className="min-h-screen flex items-center pt-20 md:pt-24 pb-16"
+      className="min-h-screen flex items-center pt-20 md:pt-24 pb-16 px-4 sm:px-6 lg:px-8"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image - Hidden on mobile, shown on tablet+ */}
           <div className="hidden md:block order-1">

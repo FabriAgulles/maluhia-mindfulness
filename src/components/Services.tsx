@@ -152,7 +152,7 @@ const Services = () => {
   };
 
   // Touch handlers
-  const SENSITIVITY_FACTOR = 2.5; // Aumenta este valor para mayor sensibilidad
+  const SENSITIVITY_FACTOR = 2; // Aumenta este valor para mayor sensibilidad
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!carouselRef.current) return;

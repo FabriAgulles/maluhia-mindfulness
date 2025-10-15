@@ -61,9 +61,6 @@ const Hero = () => {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <p className="text-sm md:text-base text-muted-foreground mb-4 font-body">
-                Maluhia Mindfulness
-              </p>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary mb-6 leading-tight">
                 Un espacio para habitar la calma y reencontrarte contigo mismo.
               </h1>

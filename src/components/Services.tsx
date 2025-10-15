@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import serviceIndividual from "@/assets/service-individual.jpg";
@@ -6,7 +6,6 @@ import serviceGroup from "@/assets/service-group.jpg";
 import serviceCorporate from "@/assets/service-corporate.jpg";
 import serviceWorkshop from "@/assets/service-workshop.jpg";
 
-// ... (Tu interfaz Service y el array de services se mantienen igual)
 interface Service {
   id: number;
   title: string;
@@ -20,7 +19,7 @@ interface Service {
 }
 
 const services: Service[] = [
-    {
+  {
     id: 1,
     title: "Sesiones 1:1 de Mindfulness",
     price: "€62 por sesión",
@@ -72,179 +71,271 @@ const services: Service[] = [
   },
 ];
 
-
 const Services = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-  // Lógica para diferenciar Click de Drag
-  const isDraggingRef = useRef(false);
-  const startXRef = useRef(0);
-
-  // Determina el número de slides visibles y el índice máximo
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
-  const maxIndex = services.length - 1;
-
-  // Animación de entrada
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.1 });
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Sincroniza el scroll con el `currentIndex`
-  const scrollTo = useCallback((index: number) => {
-    itemRefs.current[index]?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
-    });
-    setCurrentIndex(index);
-  }, []);
-
-  const prevSlide = () => scrollTo(Math.max(currentIndex - 1, 0));
-  const nextSlide = () => scrollTo(Math.min(currentIndex + 1, maxIndex));
-
-  // Observador para actualizar el `currentIndex` basado en el slide visible
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute('data-index'));
-            setCurrentIndex(index);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
-      { root: carouselRef.current, threshold: 0.5 }
+      { threshold: 0.1 }
     );
 
-    itemRefs.current.forEach((item) => {
-      if (item) observer.observe(item);
-    });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => observer.disconnect();
-  }, [services.length]);
+  }, []);
 
-  // Manejo de teclado para accesibilidad
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowRight') nextSlide();
-    if (e.key === 'ArrowLeft') prevSlide();
+  const itemsPerPage = isMobile ? 1 : 3;
+  const maxIndex = services.length - itemsPerPage;
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+    setExpandedCard(null);
   };
 
-  const handlePointerDown = (e: React.PointerEvent) => {
-    isDraggingRef.current = false;
-    startXRef.current = e.clientX;
-    // Captura los eventos del puntero para un arrastre suave
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  const prevSlide = () => {
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    setExpandedCard(null);
   };
-  
-  const handlePointerMove = (e: React.PointerEvent) => {
-    // Si el movimiento supera un umbral, se considera un arrastre
-    if (Math.abs(e.clientX - startXRef.current) > 10) {
-      isDraggingRef.current = true;
-    }
+
+  const toggleExpand = (id: number) => {
+    setExpandedCard(expandedCard === id ? null : id);
   };
-  
-  const handlePointerUp = (e: React.PointerEvent) => {
-    // Libera la captura de eventos del puntero
-    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX);
+    setScrollLeft(currentIndex);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX;
+    const walk = (startX - x) / (carouselRef.current.offsetWidth / itemsPerPage);
+    const newIndex = Math.round(scrollLeft + walk);
+    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
+    setCurrentIndex(clampedIndex);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  // Touch handlers
+  const SENSITIVITY_FACTOR = 2; // Aumenta este valor para mayor sensibilidad
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!carouselRef.current) return;
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX);
+    setScrollLeft(currentIndex);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !carouselRef.current) return;
+    const x = e.touches[0].pageX;
+    const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
+    const newIndex = Math.round(scrollLeft + walk);
+    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
+    setCurrentIndex(clampedIndex);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
   };
 
   return (
-    <section id="servicios" ref={sectionRef} className="py-16 md:py-24 bg-background">
+    <section
+      id="servicios"
+      ref={sectionRef}
+      className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-background"
+    >
       <div className="container mx-auto">
-        <div className={`text-center mb-12 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <div
+          className={`text-center mb-12 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
             Explora los caminos hacia tu bienestar
           </h2>
           <p className="text-base md:text-lg text-foreground font-body max-w-2xl mx-auto">
-            Cada servicio está diseñado para acompañarte, de forma online, a integrar la atención plena en tu vida.
+            Cada servicio está diseñado para acompañarte, de forma online, a
+            integrar la atención plena en tu vida.
           </p>
         </div>
 
-        <div 
-          className="relative"
-          role="region" 
-          aria-roledescription="carousel"
-          aria-label="Servicios de Mindfulness"
-        >
-          {/* Contenedor del Carrusel con Scroll Snap */}
-          <div
-            ref={carouselRef}
-            className="carousel-container"
-            onKeyDown={handleKeyDown}
-            tabIndex={0} // Permite que el div reciba foco
-          >
-            {services.map((service, index) => (
-              <div
-                key={service.id}
-                ref={el => itemRefs.current[index] = el}
-                data-index={index}
-                className="carousel-item"
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${index + 1} de ${services.length}`}
+        <div className="relative">
+          {/* Navigation Buttons */}
+          {!isMobile && (
+            <>
+              <button
+                onClick={prevSlide}
+                disabled={currentIndex === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300"
+                aria-label="Previous services"
               >
+                <ChevronLeft className="text-primary" size={24} />
+              </button>
+              <button
+                onClick={nextSlide}
+                disabled={currentIndex >= maxIndex}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300"
+                aria-label="Next services"
+              >
+                <ChevronRight className="text-primary" size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Cards Container */}
+          <div 
+            className="overflow-hidden"
+            ref={carouselRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          >
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{
+                transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
+                pointerEvents: isDragging ? 'none' : 'auto',
+              }}
+            >
+              {services.map((service) => (
                 <div
-                  className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col ${expandedCard === service.id ? "ring-2 ring-accent" : ""}`}
-                  onClick={() => !isDraggingRef.current && setExpandedCard(expandedCard === service.id ? null : service.id)}
-                  onPointerDown={handlePointerDown}
-                  onPointerMove={handlePointerMove}
-                  onPointerUp={handlePointerUp}
+                  key={service.id}
+                  className={`flex-shrink-0 px-2 md:px-4 py-5 transition-all duration-500 ${
+                    isMobile ? "w-full" : "w-1/3"
+                  } ${
+                    expandedCard === service.id ? "scale-105 z-20" : "scale-100"
+                  }`}
                 >
-                  <div className="relative h-40 md:h-48 overflow-hidden">
-                    <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
-                  </div>
-                  <div className="py-5 px-5 flex-1 flex flex-col">
-                    <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">{service.title}</h3>
-                    <div className="mb-4">
-                      {service.pricePromo ? (
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-muted-foreground line-through text-sm">{service.price}</span>
-                          <span className="text-accent font-bold text-lg">{service.pricePromo}</span>
-                        </div>
-                      ) : (
-                        <span className="text-accent font-bold text-lg">{service.price}</span>
-                      )}
+                  <div
+                    className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col ${
+                      expandedCard === service.id ? "ring-2 ring-accent" : ""
+                    }`}
+                    onClick={() => toggleExpand(service.id)}
+                  >
+                    <div className="relative h-40 md:h-48 overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                      />
                     </div>
-                    <p className="text-foreground font-body mb-4 text-sm md:text-base">{service.shortDesc}</p>
-                    {expandedCard === service.id && (
-                      <p className="text-foreground font-body mb-4 text-sm md:text-base animate-fadeIn">{service.longDesc}</p>
-                    )}
-                    <div className="mt-auto space-y-2 flex flex-col items-center">
-                      <Button
-                        onClick={(e) => { e.stopPropagation(); window.open(service.whatsappLink, "_blank"); }}
-                        className="px-8 text-sm py-2.5 bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
-                      >
-                        {service.ctaText}
-                      </Button>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); setExpandedCard(expandedCard === service.id ? null : service.id); }}
-                        className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
-                      >
-                        {expandedCard === service.id ? "Ver menos" : "Ver más"}
-                      </button>
+                    <div className="py-5 px-5 flex-1 flex flex-col">
+                      <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">
+                        {service.title}
+                      </h3>
+                      <div className="mb-4">
+                        {service.pricePromo ? (
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-muted-foreground line-through text-sm">
+                              {service.price}
+                            </span>
+                            <span className="text-accent font-bold text-lg">
+                              {service.pricePromo}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-accent font-bold text-lg">
+                            {service.price}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-foreground font-body mb-4 text-sm md:text-base">
+                        {service.shortDesc}
+                      </p>
+                      {expandedCard === service.id && (
+                        <p className="text-foreground font-body mb-4 text-sm md:text-base animate-fadeIn">
+                          {service.longDesc}
+                        </p>
+                      )}
+                      <div className="mt-auto space-y-2 flex flex-col items-center">
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(service.whatsappLink, "_blank");
+                          }}
+                          className="px-8 text-sm py-2.5 bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
+                        >
+                          {service.ctaText}
+                        </Button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleExpand(service.id);
+                          }}
+                          className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
+                        >
+                          {expandedCard === service.id ? "Ver menos" : "Ver más"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Botones de Navegación (Externos al contenedor de scroll) */}
-          <div className="flex justify-center items-center gap-4 mt-6 md:mt-8">
-            <button onClick={prevSlide} disabled={currentIndex === 0} className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300" aria-label="Servicio anterior">
-              <ChevronLeft className="text-primary" size={24} />
-            </button>
-            <button onClick={nextSlide} disabled={currentIndex === maxIndex} className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300" aria-label="Siguiente servicio">
-              <ChevronRight className="text-primary" size={24} />
-            </button>
-          </div>
+          {/* Mobile Navigation */}
+          {isMobile && (
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={prevSlide}
+                disabled={currentIndex === 0}
+                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30"
+                aria-label="Previous service"
+              >
+                <ChevronLeft className="text-primary" size={24} />
+              </button>
+              <button
+                onClick={nextSlide}
+                disabled={currentIndex >= maxIndex}
+                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30"
+                aria-label="Next service"
+              >
+                <ChevronRight className="text-primary" size={24} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

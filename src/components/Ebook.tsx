@@ -102,7 +102,7 @@ const Ebook = () => {
                   </ul>
                 </div>
                 <Button
-                  onClick={() => window.open("https://wa.me/34697102947?text=Hola%2C+me+gustaría+recibir+más+información+sobre+las+sesiones+de+mindfulness", "_blank")}
+                  onClick={() => window.open("https://hotmart.com/es/marketplace/productos/8-semanas-de-mindfulness/D102428798S", "_blank")}
                   size="lg"
                   className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mb-8"
                 >

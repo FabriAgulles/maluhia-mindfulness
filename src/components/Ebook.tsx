@@ -6,7 +6,7 @@ import ebookCover from "@/assets/ebook-cover.jpg";
 const testimonials = [
   {
     id: 1,
-    text: “Me ha resultado muy útil, en especial las prácticas informales.”,
+    text: "Me ha resultado muy útil, en especial las prácticas informales.",
     author: "Graciela",
   },
   {

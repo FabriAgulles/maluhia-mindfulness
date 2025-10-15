@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo_maluhia.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,9 +22,14 @@ const Header = () => {
             {/* Logo */}
             <button
               onClick={() => scrollToSection("inicio")}
-              className="font-heading text-xl md:text-2xl font-semibold text-primary hover:opacity-80 transition-opacity duration-300"
+              className="hover:opacity-80 transition-opacity duration-300"
+              aria-label="Ir a inicio"
             >
-              Maluhia Mindfulness
+              <img 
+                src={logo} 
+                alt="Maluhia Mindfulness" 
+                className="h-12 md:h-16 w-auto"
+              />
             </button>
 
             {/* Desktop Navigation */}

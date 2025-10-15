@@ -1,4 +1,5 @@
 import { Instagram, Linkedin, Youtube } from "lucide-react";
+import logo from "@/assets/logo_maluhia.png";
 
 const Footer = () => {
   return (
@@ -6,9 +7,17 @@ const Footer = () => {
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           {/* Logo */}
-          <div className="font-heading text-lg font-semibold text-primary">
-            Maluhia Mindfulness
-          </div>
+          <a
+            href="#inicio"
+            className="hover:opacity-80 transition-opacity duration-300"
+            aria-label="Ir a inicio"
+          >
+            <img 
+              src={logo} 
+              alt="Maluhia Mindfulness" 
+              className="h-12 w-auto"
+            />
+          </a>
 
           {/* Slogan */}
           <div className="font-body italic text-foreground text-base">

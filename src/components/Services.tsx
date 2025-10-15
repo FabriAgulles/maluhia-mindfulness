@@ -152,6 +152,8 @@ const Services = () => {
   };
 
   // Touch handlers
+  const SENSITIVITY_FACTOR = 2.5; // Aumenta este valor para mayor sensibilidad
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!carouselRef.current) return;
     setIsDragging(true);
@@ -162,7 +164,7 @@ const Services = () => {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !carouselRef.current) return;
     const x = e.touches[0].pageX;
-    const walk = (startX - x) / (carouselRef.current.offsetWidth / itemsPerPage);
+    const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
     const newIndex = Math.round(scrollLeft + walk);
     const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
     setCurrentIndex(clampedIndex);

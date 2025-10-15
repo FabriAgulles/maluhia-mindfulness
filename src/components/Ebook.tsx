@@ -6,8 +6,8 @@ import ebookCover from "@/assets/ebook-cover.jpg";
 const testimonials = [
   {
     id: 1,
-    text: "Me ayudó a frenar el ritmo y volver a conectar con lo esencial. Un antes y un después en mi día a día.",
-    author: "Laura",
+    text: “Me ha resultado muy útil, en especial las prácticas informales.”,
+    author: "Graciela",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const testimonials = [
   },
   {
     id: 3,
-    text: "Nunca había podido sostener un hábito, pero con este ebook logré integrar el mindfulness en mi rutina.",
+    text: "Siempre me costó sostener hábitos, con este ebook logré incorporar Mindfulnees en mi rutina.",
     author: "Fabricio",
   },
 ];

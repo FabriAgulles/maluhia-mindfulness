@@ -2,8 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* 
+  ================================================================================
+  CARRUSEL DE SERVICIOS - Estilos para el componente moderno con Scroll Snap
+  ================================================================================
+*/
+@layer components {
+  .carousel-container {
+    @apply flex overflow-x-auto gap-4 px-4;
+    
+    /* Habilita el scroll snapping */
+    scroll-snap-type: x mandatory;
+    
+    /* Scroll suave en iOS */
+    -webkit-overflow-scrolling: touch;
+    
+    /* Cursor para indicar que es arrastrable */
+    cursor: grab;
+    
+    /* Propiedad para optimizar animaciones de scroll/transform */
+    will-change: transform;
+    
+    /* Asegura que el contenedor no tenga un borde de foco por defecto al usar tabulación */
+    outline: none;
+    
+    /* Oculta la barra de scroll para una apariencia más limpia */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE y Edge */
+  }
+
+  .carousel-container::-webkit-scrollbar {
+    @apply hidden; /* Chrome, Safari y Opera */
+  }
+
+  .carousel-container:active {
+    cursor: grabbing;
+  }
+
+  .carousel-item {
+    /* Cada elemento es un punto de "snap" en el centro */
+    scroll-snap-align: center;
+    
+    /* Evita que los elementos se encojan */
+    @apply flex-shrink-0;
+    
+    /* Ancho de los elementos en móvil (90% del contenedor) */
+    width: 90%;
+  }
+
+  /* Ancho y espaciado en escritorio para el efecto "peeking" */
+  @media (min-width: 1024px) {
+    .carousel-item {
+      width: calc(100% / 3.2); /* Muestra ~3.2 elementos a la vez */
+    }
+
+    .carousel-container {
+      @apply gap-8 px-8;
+    }
+  }
+}
+
+/* 
+  ================================================================================
+  SISTEMA DE DISEÑO - Definición de colores, fuentes, etc.
+  ================================================================================
 */
 
 @layer base {
@@ -67,6 +129,12 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+/* 
+  ================================================================================
+  ESTILOS Y ANIMACIONES GLOBALES
+  ================================================================================
+*/
 
 /* Smooth scroll behavior */
 html {

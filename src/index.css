@@ -1,69 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Maluhia Mindfulness Color Palette */
+    --background: 32 44% 95%; /* #F6F1E9 - Light beige */
+    --foreground: 0 0% 20%; /* #333333 - Soft dark gray */
+
+    --card: 32 44% 95%; /* #F6F1E9 */
+    --card-foreground: 0 0% 20%;
+    
+    --card-alt: 35 45% 80%; /* #e5cba8 - Sand */
+
+    --popover: 32 44% 95%;
+    --popover-foreground: 0 0% 20%;
+
+    /* Brown earth for titles - #7A5C47 */
+    --primary: 22 26% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Red terracotta for primary CTAs - #C0604C */
+    --cta-primary: 8 43% 53%;
+    --cta-primary-foreground: 0 0% 100%;
+    
+    /* Warm yellow for secondary CTAs - #EFBF64 */
+    --cta-secondary: 39 80% 66%;
+    --cta-secondary-foreground: 0 0% 20%;
+
+    --secondary: 32 44% 95%;
+    --secondary-foreground: 22 26% 38%;
+
+    --muted: 35 45% 80%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 8 43% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 30% 85%;
+    --input: 35 30% 85%;
+    --ring: 22 26% 38%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
-}
+
 /* Smooth scroll behavior */
 html {
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
+
 /* Animation utilities */
 @keyframes fadeInUp {
-from {
-opacity: 0;
-transform: translateY(30px);
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
+
 @keyframes fadeIn {
-from {
-opacity: 0;
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-to {
-opacity: 1;
-}
-}
+
 @keyframes rotateSubtle {
-0%, 100% {
-transform: rotate(0deg);
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
 }
-25% {
-transform: rotate(5deg);
-}
-75% {
-transform: rotate(-5deg);
-}
-}
+
 @keyframes scaleIn {
-from {
-opacity: 0;
-transform: scale(0.95);
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
-to {
-opacity: 1;
-transform: scale(1);
-}
-}
+
 .animate-fadeInUp {
-animation: fadeInUp 0.8s ease-out forwards;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
+
 .animate-fadeIn {
-animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeIn 0.6s ease-out forwards;
 }
+
 .animate-scaleIn {
-animation: scaleIn 0.6s ease-out forwards;
+  animation: scaleIn 0.6s ease-out forwards;
 }
+
 .animate-rotateSubtle {
-animation: rotateSubtle 4s ease-in-out infinite;
+  animation: rotateSubtle 4s ease-in-out infinite;
 }
+
 @layer base {
-{
-@apply border-border;
-}
-body {
-@apply bg-background text-foreground font-body antialiased;
-}
-h1, h2, h3, h4, h5, h6 {
-@apply font-heading text-primary;
-}
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-primary;
+  }
 }

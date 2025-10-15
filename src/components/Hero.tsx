@@ -65,7 +65,7 @@ const Hero = () => {
                 Un espacio para habitar la calma y reencontrarte contigo mismo.
               </h1>
               <p className="text-lg md:text-xl text-foreground mb-8 md:mb-12 font-body font-light italic">
-                "Respira, sonríe y vuelve al presente, ahí es donde tu vida sucede."
+                Respira, sonríe y vuelve al presente, ahí es donde tu vida sucede.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">

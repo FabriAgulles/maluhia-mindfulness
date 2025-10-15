@@ -220,7 +220,7 @@ const Services = () => {
 
           {/* Cards Container */}
           <div 
-            className="overflow-hidden"
+            className="overflow-hidden touch-pan-y"
             ref={carouselRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}

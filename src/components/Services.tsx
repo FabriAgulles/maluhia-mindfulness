@@ -12,6 +12,7 @@ interface Service {
   price: string;
   pricePromo?: string;
   ctaText: string;
+  whatsappLink: string;
   shortDesc: string;
   longDesc: string;
   image: string;
@@ -24,6 +25,7 @@ const services: Service[] = [
     price: "€62 por sesión",
     pricePromo: "€40",
     ctaText: "Agendar mi sesión 1:1",
+    whatsappLink: "https://wa.me/34697102947?text=Hola!%20Me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20las%20sesiones%201%3A1%20de%20mindfulness",
     shortDesc:
       "Un espacio personalizado para recorrer un programa de 8 semanas que te acompaña a reconectar con tu respiración, tu cuerpo y tus emociones, avanzando hacia una vida más consciente, compasiva y en equilibrio.",
     longDesc:
@@ -36,6 +38,7 @@ const services: Service[] = [
     price: "€40 por sesión/persona",
     pricePromo: "€26 por sesión/persona",
     ctaText: "Reservar mi lugar en el grupo",
+    whatsappLink: "https://wa.me/34697102947?text=Hola!%20Tengo%20inter%C3%A9s%20en%20las%20sesiones%20grupales%20de%20mindfulness%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n",
     shortDesc:
       "Un espacio reducido de hasta 6 personas para vivir la práctica de forma compartida. A través de la escucha y el intercambio, descubrirás nuevas perspectivas y enriquecerás tu propio proceso.",
     longDesc:
@@ -47,6 +50,7 @@ const services: Service[] = [
     title: "Mindfulness para Empresas",
     price: "A consultar",
     ctaText: "Solicitar propuesta",
+    whatsappLink: "https://wa.me/34697102947?text=Hola!%20Quisiera%20conocer%20m%C3%A1s%20sobre%20el%20programa%20de%20mindfulness%20para%20empresas",
     shortDesc:
       "Programa de 8 semanas diseñado para equipos y organizaciones que buscan reducir el estrés, aumentar la productividad y fortalecer las relaciones laborales.",
     longDesc:
@@ -58,6 +62,7 @@ const services: Service[] = [
     title: "Workshop personalizado de Mindfulness",
     price: "A consultar",
     ctaText: "Quiero este taller",
+    whatsappLink: "https://wa.me/34697102947?text=Hola!%20Estoy%20interesado%2Fa%20en%20el%20workshop%20de%20mindfulness%20y%20quisiera%20saber%20m%C3%A1s",
     shortDesc:
       "Un taller práctico y vivencial, de manera personalizada para grupos o comunidades que quieran integrar mindfulness a su espacio, para sumergirte en el mindfulness en solo 4 horas, con técnicas que podrás llevar a tu día a día.",
     longDesc:
@@ -222,10 +227,7 @@ const Services = () => {
                         <Button
                           onClick={(e) => {
                             e.stopPropagation();
-                            window.open(
-                              "https://wa.me/34697102947?text=Hola%2C+me+gustaría+recibir+más+información+sobre+las+sesiones+de+mindfulness",
-                              "_blank"
-                            );
+                            window.open(service.whatsappLink, "_blank");
                           }}
                           className="px-8 text-sm py-2.5 bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
                         >

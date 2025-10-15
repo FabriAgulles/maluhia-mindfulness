@@ -37,7 +37,7 @@ const services: Service[] = [
     title: "Sesiones Grupales de Mindfulness",
     price: "€40 por sesión/persona",
     pricePromo: "€26 por sesión/persona",
-    ctaText: "Reservar mi lugar en el grupo",
+    ctaText: "Reservar mi lugar",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Tengo%20inter%C3%A9s%20en%20las%20sesiones%20grupales%20de%20mindfulness%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n",
     shortDesc:
       "Un espacio reducido de hasta 6 personas para vivir la práctica de forma compartida. A través de la escucha y el intercambio, descubrirás nuevas perspectivas y enriquecerás tu propio proceso.",

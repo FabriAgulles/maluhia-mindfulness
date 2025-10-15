@@ -19,7 +19,8 @@ interface Service {
 }
 
 const services: Service[] = [
-  {
+    // ... (tu array de servicios permanece igual, no es necesario copiarlo aquí)
+    {
     id: 1,
     title: "Sesiones 1:1 de Mindfulness",
     price: "€62 por sesión",
@@ -78,9 +79,13 @@ const Services = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Estados para el arrastre (drag/swipe)
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0); // <-- NUEVO: Para la posición Y inicial
   const [scrollLeft, setScrollLeft] = useState(0);
+  const touchDirectionRef = useRef<'horizontal' | 'vertical' | null>(null); // <-- NUEVO: Ref para la dirección
 
   useEffect(() => {
     const checkMobile = () => {
@@ -125,12 +130,16 @@ const Services = () => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
-  // Mouse drag handlers
+  // --- INICIO DE LA LÓGICA DE ARRASTRE MODIFICADA ---
+
+  // Mouse drag handlers (Escritorio)
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!carouselRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX);
     setScrollLeft(currentIndex);
+    // Cambiamos el cursor al presionar
+    carouselRef.current.style.cursor = 'grabbing';
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -144,35 +153,61 @@ const Services = () => {
   };
 
   const handleMouseUp = () => {
+    if (!carouselRef.current) return;
     setIsDragging(false);
+    // Devolvemos el cursor a su estado normal
+    carouselRef.current.style.cursor = 'grab';
   };
 
   const handleMouseLeave = () => {
+    if (!carouselRef.current || !isDragging) return;
     setIsDragging(false);
+    carouselRef.current.style.cursor = 'grab';
   };
 
-  // Touch handlers
-  const SENSITIVITY_FACTOR = 2; // Aumenta este valor para mayor sensibilidad
+
+  // Touch handlers (Móvil/Tablet)
+  const SENSITIVITY_FACTOR = 2.5;
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!carouselRef.current) return;
+    touchDirectionRef.current = null; // Resetea la dirección
     setIsDragging(true);
     setStartX(e.touches[0].pageX);
+    setStartY(e.touches[0].pageY); // <-- NUEVO: Guarda la posición Y
     setScrollLeft(currentIndex);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !carouselRef.current) return;
-    const x = e.touches[0].pageX;
-    const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
-    const newIndex = Math.round(scrollLeft + walk);
-    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
-    setCurrentIndex(clampedIndex);
+    
+    // Si la dirección no está determinada, la calculamos
+    if (touchDirectionRef.current === null) {
+      const deltaX = Math.abs(e.touches[0].pageX - startX);
+      const deltaY = Math.abs(e.touches[0].pageY - startY);
+      
+      // Establece la dirección solo después de un pequeño umbral de movimiento
+      if (deltaX > 5 || deltaY > 5) {
+        touchDirectionRef.current = deltaX > deltaY ? 'horizontal' : 'vertical';
+      }
+    }
+
+    // Solo si el gesto es horizontal, movemos el carrusel y prevenimos el scroll
+    if (touchDirectionRef.current === 'horizontal') {
+      e.preventDefault(); // <-- CLAVE: Previene el scroll vertical de la página
+      const x = e.touches[0].pageX;
+      const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
+      const newIndex = Math.round(scrollLeft + walk);
+      const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
+      setCurrentIndex(clampedIndex);
+    }
   };
 
   const handleTouchEnd = () => {
     setIsDragging(false);
   };
+
+  // --- FIN DE LA LÓGICA DE ARRASTRE MODIFICADA ---
 
   return (
     <section
@@ -196,7 +231,7 @@ const Services = () => {
         </div>
 
         <div className="relative">
-          {/* Navigation Buttons */}
+          {/* Botones de Navegación (Escritorio) */}
           {!isMobile && (
             <>
               <button
@@ -218,7 +253,7 @@ const Services = () => {
             </>
           )}
 
-          {/* Cards Container */}
+          {/* Contenedor de las Tarjetas (Carrusel) */}
           <div 
             className="overflow-hidden"
             ref={carouselRef}
@@ -229,12 +264,13 @@ const Services = () => {
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+            style={{ cursor: 'grab' }} // El cursor cambia dinámicamente en los handlers
           >
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
+                // Previene que se pueda hacer clic en los botones mientras se arrastra
                 pointerEvents: isDragging ? 'none' : 'auto',
               }}
             >
@@ -248,10 +284,11 @@ const Services = () => {
                   }`}
                 >
                   <div
-                    className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col ${
+                    className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col ${
                       expandedCard === service.id ? "ring-2 ring-accent" : ""
                     }`}
-                    onClick={() => toggleExpand(service.id)}
+                    // El `onClick` para expandir ahora solo funciona si no hay arrastre
+                    onClick={() => !isDragging && toggleExpand(service.id)}
                   >
                     <div className="relative h-40 md:h-48 overflow-hidden">
                       <img
@@ -315,7 +352,7 @@ const Services = () => {
             </div>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Navegación Móvil */}
           {isMobile && (
             <div className="flex justify-center gap-4 mt-6">
               <button

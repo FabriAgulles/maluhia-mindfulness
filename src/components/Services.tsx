@@ -125,23 +125,22 @@ const Services = () => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
-  // Mouse drag handlers (desktop)
+  // Mouse drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return;
     setIsDragging(true);
     setStartX(e.pageX);
     setScrollLeft(currentIndex);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+    if (!isDragging || !carouselRef.current) return;
     e.preventDefault();
     const x = e.pageX;
-    const walk = (startX - x) / (carouselRef.current?.offsetWidth || 1);
-    const newIndex = Math.round(scrollLeft + walk * itemsPerPage);
+    const walk = (startX - x) / (carouselRef.current.offsetWidth / itemsPerPage);
+    const newIndex = Math.round(scrollLeft + walk);
     const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
-    if (clampedIndex !== currentIndex) {
-      setCurrentIndex(clampedIndex);
-    }
+    setCurrentIndex(clampedIndex);
   };
 
   const handleMouseUp = () => {
@@ -152,20 +151,27 @@ const Services = () => {
     setIsDragging(false);
   };
 
-  // Touch handlers (mobile)
+  // Touch handlers
+  const SENSITIVITY_FACTOR = 2; // Aumenta este valor para mayor sensibilidad
+
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (!carouselRef.current) return;
+    setIsDragging(true);
     setStartX(e.touches[0].pageX);
     setScrollLeft(currentIndex);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !carouselRef.current) return;
     const x = e.touches[0].pageX;
-    const walk = (startX - x) / (carouselRef.current?.offsetWidth || 1);
-    const newIndex = Math.round(scrollLeft + walk * itemsPerPage);
+    const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
+    const newIndex = Math.round(scrollLeft + walk);
     const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
-    if (clampedIndex !== currentIndex) {
-      setCurrentIndex(clampedIndex);
-    }
+    setCurrentIndex(clampedIndex);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
   };
 
   return (
@@ -213,21 +219,24 @@ const Services = () => {
           )}
 
           {/* Cards Container */}
-          <div className="overflow-hidden">
+          <div 
+            className="overflow-hidden"
+            ref={carouselRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          >
             <div
-              ref={carouselRef}
-              className={`flex transition-transform duration-500 ease-out select-none ${
-                isDragging ? "cursor-grabbing" : "cursor-grab"
-              }`}
+              className="flex transition-transform duration-500 ease-out"
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
+                pointerEvents: isDragging ? 'none' : 'auto',
               }}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
             >
               {services.map((service) => (
                 <div
@@ -242,8 +251,7 @@ const Services = () => {
                     className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col ${
                       expandedCard === service.id ? "ring-2 ring-accent" : ""
                     }`}
-                    onClick={() => !isDragging && toggleExpand(service.id)}
-                    style={{ pointerEvents: isDragging ? "none" : "auto" }}
+                    onClick={() => toggleExpand(service.id)}
                   >
                     <div className="relative h-40 md:h-48 overflow-hidden">
                       <img

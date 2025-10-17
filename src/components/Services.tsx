@@ -64,7 +64,7 @@ const services: Service[] = [
     ctaText: "Quiero este taller",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Estoy%20interesado%2Fa%20en%20el%20workshop%20de%20mindfulness%20y%20quisiera%20saber%20m%C3%A1s",
     shortDesc:
-      "Un taller práctico y vivencial, de manera personalizada para grupos o comunidades que quieran integrar mindfulness a su espacio, para sumergirte en el mindfulness en solo 4 horas, con técnicas que podrás llevar a tu día a día.",
+      "Un taller práctico y vivencial, de manera personalizada para grupos o comunidades que quieran integrar mindfulness a su espacio, con técnicas que podrás llevar a tu día a día.",
     longDesc:
       "Este workshop se lleva a cabo en colaboración con lugares de yoga, centros de bienestar o instituciones que buscan brindar a su comunidad una experiencia transformadora. Incluye prácticas de respiración, meditación guiada, ejercicios de atención plena y herramientas para integrar el mindfulness en la vida cotidiana.",
     image: serviceWorkshop,

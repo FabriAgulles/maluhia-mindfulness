@@ -76,7 +76,11 @@ const Services = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -119,6 +123,49 @@ const Services = () => {
 
   const toggleExpand = (id: number) => {
     setExpandedCard(expandedCard === id ? null : id);
+  };
+
+  // Mouse drag handlers (desktop)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX);
+    setScrollLeft(currentIndex);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX;
+    const walk = (startX - x) / (carouselRef.current?.offsetWidth || 1);
+    const newIndex = Math.round(scrollLeft + walk * itemsPerPage);
+    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
+    if (clampedIndex !== currentIndex) {
+      setCurrentIndex(clampedIndex);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  // Touch handlers (mobile)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setStartX(e.touches[0].pageX);
+    setScrollLeft(currentIndex);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const x = e.touches[0].pageX;
+    const walk = (startX - x) / (carouselRef.current?.offsetWidth || 1);
+    const newIndex = Math.round(scrollLeft + walk * itemsPerPage);
+    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
+    if (clampedIndex !== currentIndex) {
+      setCurrentIndex(clampedIndex);
+    }
   };
 
   return (
@@ -168,10 +215,19 @@ const Services = () => {
           {/* Cards Container */}
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-out"
+              ref={carouselRef}
+              className={`flex transition-transform duration-500 ease-out select-none ${
+                isDragging ? "cursor-grabbing" : "cursor-grab"
+              }`}
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
               }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
             >
               {services.map((service) => (
                 <div
@@ -186,7 +242,8 @@ const Services = () => {
                     className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col ${
                       expandedCard === service.id ? "ring-2 ring-accent" : ""
                     }`}
-                    onClick={() => toggleExpand(service.id)}
+                    onClick={() => !isDragging && toggleExpand(service.id)}
+                    style={{ pointerEvents: isDragging ? "none" : "auto" }}
                   >
                     <div className="relative h-40 md:h-48 overflow-hidden">
                       <img

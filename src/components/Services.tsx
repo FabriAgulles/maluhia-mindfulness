@@ -76,11 +76,7 @@ const Services = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -123,55 +119,6 @@ const Services = () => {
 
   const toggleExpand = (id: number) => {
     setExpandedCard(expandedCard === id ? null : id);
-  };
-
-  // Mouse drag handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!carouselRef.current) return;
-    setIsDragging(true);
-    setStartX(e.pageX);
-    setScrollLeft(currentIndex);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !carouselRef.current) return;
-    e.preventDefault();
-    const x = e.pageX;
-    const walk = (startX - x) / (carouselRef.current.offsetWidth / itemsPerPage);
-    const newIndex = Math.round(scrollLeft + walk);
-    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
-    setCurrentIndex(clampedIndex);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  // Touch handlers
-  const SENSITIVITY_FACTOR = 2; // Aumenta este valor para mayor sensibilidad
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!carouselRef.current) return;
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX);
-    setScrollLeft(currentIndex);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !carouselRef.current) return;
-    const x = e.touches[0].pageX;
-    const walk = ((startX - x) * SENSITIVITY_FACTOR) / (carouselRef.current.offsetWidth / itemsPerPage);
-    const newIndex = Math.round(scrollLeft + walk);
-    const clampedIndex = Math.max(0, Math.min(newIndex, maxIndex));
-    setCurrentIndex(clampedIndex);
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
   };
 
   return (
@@ -219,23 +166,11 @@ const Services = () => {
           )}
 
           {/* Cards Container */}
-          <div 
-            className="overflow-hidden"
-            ref={carouselRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
+          <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
-                pointerEvents: isDragging ? 'none' : 'auto',
               }}
             >
               {services.map((service) => (

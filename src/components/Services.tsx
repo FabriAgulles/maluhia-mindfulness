@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useSwipeable } from "react-swipeable";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import serviceIndividual from "@/assets/service-individual.jpg";
@@ -76,21 +75,16 @@ const Services = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkScreenSize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width < 768);
-      setIsTablet(width >= 768 && width < 1024);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
     };
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
@@ -110,58 +104,22 @@ const Services = () => {
     return () => observer.disconnect();
   }, []);
 
-  const maxIndex = services.length - 1;
+  const itemsPerPage = isMobile ? 1 : 3;
+  const maxIndex = services.length - itemsPerPage;
 
   const nextSlide = () => {
-    if (currentIndex < maxIndex) {
-      setCurrentIndex((prev) => prev + 1);
-      setExpandedCard(null);
-    }
+    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+    setExpandedCard(null);
   };
 
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-      setExpandedCard(null);
-    }
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
     setExpandedCard(null);
   };
 
   const toggleExpand = (id: number) => {
     setExpandedCard(expandedCard === id ? null : id);
   };
-
-  const handleCardMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(false);
-    setDragStartPos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleCardMouseMove = (e: React.MouseEvent) => {
-    const deltaX = Math.abs(e.clientX - dragStartPos.x);
-    const deltaY = Math.abs(e.clientY - dragStartPos.y);
-    if (deltaX > 5 || deltaY > 5) {
-      setIsDragging(true);
-    }
-  };
-
-  const handleCardClick = (id: number, e: React.MouseEvent) => {
-    if (!isDragging) {
-      toggleExpand(id);
-    }
-  };
-
-  const handlers = useSwipeable({
-    onSwipedLeft: () => nextSlide(),
-    onSwipedRight: () => prevSlide(),
-    trackMouse: true,
-    trackTouch: true,
-    preventScrollOnSwipe: true,
-    delta: 10,
-  });
 
   return (
     <section
@@ -185,98 +143,83 @@ const Services = () => {
         </div>
 
         <div className="relative">
-          {/* Navigation Buttons - Desktop */}
-          <button
-            onClick={prevSlide}
-            disabled={currentIndex === 0}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-card p-3 rounded-full shadow-xl transition-all duration-300 group hover:scale-110 ${
-              currentIndex === 0 ? "opacity-0 pointer-events-none" : "opacity-100 hover:bg-primary/10"
-            } ${isMobile ? "hidden" : "-translate-x-4 md:-translate-x-8 lg:-translate-x-12"}`}
-            aria-label="Previous service"
-          >
-            <ChevronLeft className="text-primary group-hover:scale-110 transition-transform" size={28} />
-          </button>
-          <button
-            onClick={nextSlide}
-            disabled={currentIndex >= maxIndex}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-card p-3 rounded-full shadow-xl transition-all duration-300 group hover:scale-110 ${
-              currentIndex >= maxIndex ? "opacity-0 pointer-events-none" : "opacity-100 hover:bg-primary/10"
-            } ${isMobile ? "hidden" : "translate-x-4 md:translate-x-8 lg:translate-x-12"}`}
-            aria-label="Next service"
-          >
-            <ChevronRight className="text-primary group-hover:scale-110 transition-transform" size={28} />
-          </button>
+          {/* Navigation Buttons */}
+          {!isMobile && (
+            <>
+              <button
+                onClick={prevSlide}
+                disabled={currentIndex === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300"
+                aria-label="Previous services"
+              >
+                <ChevronLeft className="text-primary" size={24} />
+              </button>
+              <button
+                onClick={nextSlide}
+                disabled={currentIndex >= maxIndex}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-card p-3 rounded-full shadow-lg disabled:opacity-30 hover:bg-card-alt transition-all duration-300"
+                aria-label="Next services"
+              >
+                <ChevronRight className="text-primary" size={24} />
+              </button>
+            </>
+          )}
 
-          {/* Cards Container with Peek Effect */}
-          <div 
-            {...handlers}
-            className="relative overflow-hidden px-4 sm:px-8 md:px-12 lg:px-16 select-none touch-pan-y"
-            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
+          {/* Cards Container */}
+          <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-out will-change-transform"
+              className="flex transition-transform duration-500 ease-out"
               style={{
-                transform: `translateX(calc(-${currentIndex * 100}% + ${
-                  isMobile ? '0%' : isTablet ? '5%' : '12%'
-                }))`,
+                transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
               }}
-              onMouseDown={handleCardMouseDown}
-              onMouseMove={handleCardMouseMove}
             >
-              {services.map((service, index) => (
+              {services.map((service) => (
                 <div
                   key={service.id}
-                  className={`flex-shrink-0 px-2 sm:px-3 md:px-4 transition-all duration-500 ${
-                    isMobile ? "w-[92%]" : isTablet ? "w-[85%]" : "w-[76%]"
+                  className={`flex-shrink-0 px-2 md:px-4 py-5 transition-all duration-500 ${
+                    isMobile ? "w-full" : "w-1/3"
                   } ${
-                    index === currentIndex 
-                      ? "opacity-100 scale-100" 
-                      : "opacity-60 scale-95"
+                    expandedCard === service.id ? "scale-105 z-20" : "scale-100"
                   }`}
-                  style={{
-                    transitionProperty: 'opacity, transform',
-                    transitionDuration: '500ms',
-                  }}
                 >
                   <div
-                    className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col ${
-                      expandedCard === service.id ? "ring-2 ring-accent scale-[1.02]" : ""
-                    } ${index === currentIndex ? "cursor-pointer" : "cursor-grab"}`}
-                    onClick={(e) => handleCardClick(service.id, e)}
+                    className={`bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col ${
+                      expandedCard === service.id ? "ring-2 ring-accent" : ""
+                    }`}
+                    onClick={() => toggleExpand(service.id)}
                   >
-                    <div className="relative h-48 md:h-56 lg:h-64 overflow-hidden">
+                    <div className="relative h-40 md:h-48 overflow-hidden">
                       <img
                         src={service.image}
                         alt={service.title}
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                        draggable="false"
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                       />
                     </div>
-                    <div className="py-5 px-5 md:px-6 flex-1 flex flex-col">
-                      <h3 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-3">
+                    <div className="py-5 px-5 flex-1 flex flex-col">
+                      <h3 className="text-xl md:text-2xl font-heading font-bold text-primary mb-3">
                         {service.title}
                       </h3>
                       <div className="mb-4">
                         {service.pricePromo ? (
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-muted-foreground line-through text-sm md:text-base">
+                            <span className="text-muted-foreground line-through text-sm">
                               {service.price}
                             </span>
-                            <span className="text-accent font-bold text-lg md:text-xl">
+                            <span className="text-accent font-bold text-lg">
                               {service.pricePromo}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-accent font-bold text-lg md:text-xl">
+                          <span className="text-accent font-bold text-lg">
                             {service.price}
                           </span>
                         )}
                       </div>
-                      <p className="text-foreground font-body mb-4 text-sm md:text-base leading-relaxed">
+                      <p className="text-foreground font-body mb-4 text-sm md:text-base">
                         {service.shortDesc}
                       </p>
                       {expandedCard === service.id && (
-                        <p className="text-foreground font-body mb-4 text-sm md:text-base leading-relaxed animate-fade-in">
+                        <p className="text-foreground font-body mb-4 text-sm md:text-base animate-fadeIn">
                           {service.longDesc}
                         </p>
                       )}
@@ -286,7 +229,7 @@ const Services = () => {
                             e.stopPropagation();
                             window.open(service.whatsappLink, "_blank");
                           }}
-                          className="px-8 py-3 text-sm md:text-base bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 hover:scale-105 font-cta font-bold transition-all duration-300 shadow-md hover:shadow-lg"
+                          className="px-8 text-sm py-2.5 bg-cta-primary text-cta-primary-foreground hover:bg-cta-primary/90 font-cta font-bold"
                         >
                           {service.ctaText}
                         </Button>
@@ -295,7 +238,7 @@ const Services = () => {
                             e.stopPropagation();
                             toggleExpand(service.id);
                           }}
-                          className="w-full text-sm md:text-base text-accent hover:text-accent/80 transition-colors font-medium"
+                          className="w-full text-sm text-accent hover:text-accent/80 transition-colors"
                         >
                           {expandedCard === service.id ? "Ver menos" : "Ver más"}
                         </button>
@@ -307,51 +250,22 @@ const Services = () => {
             </div>
           </div>
 
-          {/* Dots Indicators */}
-          <div className="flex justify-center items-center gap-2 mt-8 md:mt-10">
-            {services.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`rounded-full transition-all duration-300 hover:scale-110 ${
-                  index === currentIndex
-                    ? "w-8 md:w-10 h-2 md:h-2.5 bg-primary shadow-lg"
-                    : "w-2 md:w-2.5 h-2 md:h-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
-                style={{
-                  minWidth: isMobile ? "48px" : "44px",
-                  minHeight: isMobile ? "48px" : "44px",
-                  padding: isMobile ? "20px" : "18px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                aria-label={`Ir al servicio ${index + 1}`}
-                aria-current={index === currentIndex ? "true" : "false"}
-              >
-                <span className="sr-only">Servicio {index + 1}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile Navigation Buttons */}
+          {/* Mobile Navigation */}
           {isMobile && (
             <div className="flex justify-center gap-4 mt-6">
               <button
                 onClick={prevSlide}
                 disabled={currentIndex === 0}
-                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-20 hover:bg-primary/10 transition-all active:scale-95"
-                style={{ minWidth: "48px", minHeight: "48px" }}
-                aria-label="Servicio anterior"
+                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30"
+                aria-label="Previous service"
               >
                 <ChevronLeft className="text-primary" size={24} />
               </button>
               <button
                 onClick={nextSlide}
                 disabled={currentIndex >= maxIndex}
-                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-20 hover:bg-primary/10 transition-all active:scale-95"
-                style={{ minWidth: "48px", minHeight: "48px" }}
-                aria-label="Siguiente servicio"
+                className="bg-card p-3 rounded-full shadow-lg disabled:opacity-30"
+                aria-label="Next service"
               >
                 <ChevronRight className="text-primary" size={24} />
               </button>

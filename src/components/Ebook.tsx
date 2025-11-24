@@ -87,22 +87,26 @@ const Ebook = () => {
                 </h2>
                 <div className="text-foreground font-body mb-8 space-y-4 text-sm md:text-base">
                   <p>
-                    Este ebook es una guía práctica y transformadora para
-                    incorporar el mindfulness en tu vida. Durante 8 semanas
-                    recorrerás ejercicios sencillos pero profundos que te
-                    ayudarán a:
+                    8 semanas de mindfulness - manual para tu bienestar
+Este ebook es una guía práctica, sensorial y transformadora para integrar el mindfulness en tu día a día. Durante 8 semanas recorrerás ejercicios simples pero profundos que te ayudarán a volver al cuerpo, a la respiración y al presente con más calma y claridad.
+
+A lo largo del programa aprenderás a:
                   </p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>Reducir el estrés y la ansiedad</li>
-                    <li>Reconectar con tu respiración, tu cuerpo y tus sentidos</li>
-                    <li>Practicar la compasión, la gratitud y el perdón</li>
+                    <li>Reducir el estrés, la ansiedad y el ruido mental.</li>
+                    <li>Reconectar con tu respiración, tu cuerpo y tus sentidos.</li>
+                    <li>Cultivar compasión, gratitud y perdón de forma amable y realista.</li>
                     <li>
-                      Disfrutar más del presente sin vivir en piloto automático
+                      Disfrutar del presente sin vivir en piloto automático.
                     </li>
                   </ul>
+                  <p>
+                    Es el recurso ideal si deseas empezar a vivir con más serenidad, paso a paso, con un plan claro y acompañado de prácticas guiadas para crear hábitos conscientes y sostenibles.
+                    </p>
+                    
                 </div>
                 <Button
-                  onClick={() => window.open("https://hotmart.com/es/marketplace/productos/8-semanas-de-mindfulness/D102428798S", "_blank")}
+                  onClick={() => window.open("https://pay.hotmart.com/D102428798S?checkoutMode=10", "_blank")}
                   size="lg"
                   className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mb-8"
                 >

@@ -46,9 +46,8 @@ const Contact = () => {
           </h1>
 
           <h2 className="text-lg md:text-xl text-foreground font-body italic mb-8 max-w-2xl mx-auto leading-relaxed">
-            Si sientes que es momento de reconectar contigo mismo y encontrar
-            más calma en tu día a día, puedes empezar ahora. Conversemos sobre
-            cómo puedo acompañarte en tu proceso de mindfulness.
+            Si sientes que es momento de reconectar contigo y encontrar
+            más calma en tu día a día, puedes empezar ahora, conversemos con tranquilidad sobre cómo puedo apoyarte en tu proceso de mindfulness y bienestar consciente.
           </h2>
 
           <Button

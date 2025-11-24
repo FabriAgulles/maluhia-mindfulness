@@ -62,7 +62,7 @@ const Hero = () => {
               }`}
             >
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary mb-6 leading-tight">
-                Un espacio para habitar la calma y reencontrarte contigo mismo.
+                Un espacio para habitar la calma y volver a ti.
               </h1>
               <p className="text-lg md:text-xl text-foreground mb-8 md:mb-12 font-body font-light italic">
                 Respira, sonríe y vuelve al presente, ahí es donde tu vida sucede.

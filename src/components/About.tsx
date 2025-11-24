@@ -39,9 +39,7 @@ const About = () => {
               Sobre mí
             </h2>
             <p className="text-lg md:text-xl text-foreground font-body mb-6 text-center md:text-left">
-              Experta en Mindfulness, Psicología Positiva y Gestión Emocional
-              (IEPP – España), con más de 3 años acompañando a personas y
-              equipos hacia un bienestar más consciente.
+              Experta en Mindfulness y gestión emocional
             </p>
             <div className="flex justify-center md:justify-start">
               <img
@@ -60,34 +58,56 @@ const About = () => {
           >
             <div className="text-foreground font-body text-sm md:text-base leading-relaxed space-y-4 text-justify">
               <p>
-                Durante mis años gestionando personas en el mundo corporativo,
-                fui testigo del impacto que el estrés, la falta de atención
-                plena y la desconexión emocional tienen en las personas y los
-                equipos. Esa experiencia despertó en mí la necesidad de buscar
-                herramientas más profundas y humanas para acompañar el bienestar
-                integral.
-              </p>
-              <p>
-                Así nació mi camino hacia el mindfulness y la psicología
-                positiva. Me formé en el IEPP de España, donde descubrí que la
-                verdadera transformación comienza cuando aprendemos a habitar el
-                presente con consciencia, compasión y equilibrio. Hoy me dedico a
-                acompañar a personas y organizaciones a cultivar la atención
-                plena como un recurso esencial para la vida diaria, el bienestar
-                emocional y el desarrollo personal.
-              </p>
-              <p>
-                Cada sesión, taller o programa que diseño está pensado desde la
-                escucha, la conexión y el respeto por cada proceso individual.
-                Porque creo profundamente que cuando nos detenemos, respiramos y
-                volvemos al presente, podemos transformar nuestro día a día y, con
-                ello, nuestra vida.
-              </p>
-              <p>
-                Si sientes que ha llegado el momento de reconectar contigo mismo
-                y encontrar más calma, será un honor acompañarte a dar el primer
-                paso.
-              </p>
+  Durante años trabajé gestionando equipos y procesos en entornos exigentes. Observaba la
+  misma escena repetirse una y otra vez: personas corriendo, mentes saturadas, cuerpos
+  tensos, días que pasaban sin ser realmente vividos. Y, sin darme cuenta, yo también estaba
+  ahí.
+</p>
+
+<p>
+  Habitando una vida que iba en{" "}
+  <span className="font-semibold text-accent">automático</span>.
+</p>
+
+<p>
+  La ansiedad, la autoexigencia y el ruido mental se volvieron parte de mi rutina. Mi cuerpo
+  pedía pausa, pero mi mente seguía acelerada. Cuando me mudé de Argentina a España, ese
+  desajuste interno se hizo más evidente. No era solo un cambio de país, necesitaba un
+  cambio de ritmo, de mirada, de forma de{" "}
+  <span className="font-semibold text-accent">habitar</span> mi vida.
+</p>
+
+<p>
+  Entonces apareció el mindfulness.
+</p>
+
+<p>
+  Al principio, fue una búsqueda silenciosa: entender mi mente, volver a sentir mi cuerpo,
+  recuperar pequeñas presencias que había perdido. Cada práctica se convirtió en una puerta
+  hacia mí misma. Aprendí a{" "}
+  <span className="font-semibold text-accent">respirar</span> de nuevo, a caminar con conciencia, a reconocer mis{" "}
+  <span className="font-semibold text-accent">sentidos</span>, a frenar el piloto automático y a encontrar{" "}
+  <span className="font-semibold text-accent">calma</span> donde antes solo había tensión.
+</p>
+
+<p>
+  Ese camino personal fue mi punto de inflexión.
+</p>
+
+<p>
+  Hoy, a través de Maluhia Mindfulness, acompaño a personas y equipos que, como yo,
+  sienten que la vida se vuelve demasiado rápida. Los guío con prácticas terrenales,
+  sensoriales y simples para que puedan reconectar con su bienestar, su calma y su manera
+  auténtica de estar en el mundo.
+</p>
+
+<p>
+  Porque todos podemos vivir con más presencia, gratitud y equilibrio.
+</p>
+
+<p>
+  Solo necesitamos un espacio para volver a nosotros mismos y dar el primer paso.
+</p>
             </div>
           </div>
         </div>

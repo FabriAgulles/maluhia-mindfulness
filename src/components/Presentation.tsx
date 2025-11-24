@@ -45,23 +45,31 @@ const Presentation = () => {
           </h2>
 
           <div className="text-base md:text-lg text-foreground font-body leading-relaxed space-y-4 text-justify">
-            <p>
-              En Maluhia Mindfulness creemos que el verdadero{" "}
-              <span className="font-semibold text-accent">bienestar</span> nace
-              cuando dejamos de vivir corriendo entre multitareas y
-              preocupaciones, y aprendemos a habitar el{" "}
-              <span className="font-semibold text-accent">presente</span>.
-              Nuestra misión es acompañar a las personas a reducir las tensiones
-              diarias a través de prácticas simples y profundas que reconectan
-              con el cuerpo, la respiración y el entorno.
-            </p>
-            <p>
-              Nuestra visión es clara: contribuir a una sociedad que avance hacia
-              un bienestar colectivo, donde cada persona pueda vivir con más
-              consciencia,{" "}
-              <span className="font-semibold text-accent">calma</span> y
-              plenitud.
-            </p>
+<p>
+  En Maluhia Mindfulness creemos que el{" "}
+  <span className="font-semibold text-accent">bienestar</span> real nace cuando dejamos de vivir en
+  automático y empezamos a habitar nuestra vida con{" "}
+  <span className="font-semibold text-accent">presencia</span>. No se trata de agregar más
+  tareas, ni de técnicas complejas. Se trata de volver al cuerpo, a los sentidos, a la respiración.
+</p>
+
+<p>
+  Acompañamos a personas que buscan reducir ansiedad, estrés, tensión mental y
+  desconexión, a través de prácticas simples, sensoriales y terrenales basadas en mindfulness
+  cotidiano y neurociencia accesible.
+</p>
+
+<p>
+  Cada encuentro, cada práctica y cada guía es una invitación a descubrir tus propias
+  fortalezas internas, cultivar <span className="font-semibold text-accent">calma</span> sin presión y{" "}
+  <span className="font-semibold text-accent">transformar</span> la forma en la que vives, sientes
+  y te relacionas con tu entorno.
+</p>
+
+<p>
+  Nuestra visión es clara: contribuir a un bienestar colectivo donde cada persona pueda vivir
+  con más consciencia, presencia y plenitud. Una vida más lenta. Más humana. Más habitada.
+</p>
           </div>
         </div>
       </div>

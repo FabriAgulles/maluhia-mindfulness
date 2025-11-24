@@ -27,9 +27,9 @@ const services: Service[] = [
     ctaText: "Agendar mi sesión 1:1",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20las%20sesiones%201%3A1%20de%20mindfulness",
     shortDesc:
-      "Un espacio personalizado para recorrer un programa de 8 semanas que te acompaña a reconectar con tu respiración, tu cuerpo y tus emociones, avanzando hacia una vida más consciente, compasiva y en equilibrio.",
+      "Un espacio personalizado para recorrer un programa de 8 semanas que te acompaña a reconectar con tu respiración, tu cuerpo y tus emociones. Un proceso suave y profundo para construir una vida más consciente, compasiva y equilibrada.",
     longDesc:
-      "Cada semana trabajaremos un aspecto clave: respiración, fortalezas positivas, reconocimiento del cuerpo y de los sentidos, compasión, empatía, perdón y gratitud. Un recorrido profundo y adaptado a ti.",
+      "Cada semana trabajaremos un aspecto esencial del mindfulness cotidiano: respiración consciente, fortalezas positivas, presencia en el cuerpo, exploración de los sentidos, compasión, empatía, perdón y gratitud. Es un recorrido humano, sensorial y adaptado a tu ritmo, pensado para ayudarte a transformar la forma en la que habitas tu día a día.",
     image: serviceIndividual,
   },
   {
@@ -40,9 +40,9 @@ const services: Service[] = [
     ctaText: "Reservar mi lugar",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Tengo%20inter%C3%A9s%20en%20las%20sesiones%20grupales%20de%20mindfulness%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n",
     shortDesc:
-      "Un espacio reducido de hasta 6 personas para vivir la práctica de forma compartida. A través de la escucha y el intercambio, descubrirás nuevas perspectivas y enriquecerás tu propio proceso.",
+      "Un espacio reducido de hasta 6 personas para vivir la práctica de mindfulness en comunidad. A través de la escucha y el intercambio, ampliarás tu perspectiva y enriquecerás tu proceso personal.",
     longDesc:
-      "Cada semana se combina la práctica guiada con la experiencia de comunidad: aprender de los demás, apoyarse mutuamente y generar un vínculo que multiplica la motivación y el compromiso con el mindfulness.",
+      "Cada encuentro combina práctica guiada con momentos de reflexión y comunidad. Compartir experiencias, aprender de otros y recibir apoyo mutuo potencia la motivación, la constancia y el compromiso con tu bienestar. Un espacio cálido y humano para crecer acompañado.",
     image: serviceGroup,
   },
   {
@@ -52,9 +52,9 @@ const services: Service[] = [
     ctaText: "Solicitar propuesta",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Quisiera%20conocer%20m%C3%A1s%20sobre%20el%20programa%20de%20mindfulness%20para%20empresas",
     shortDesc:
-      "Programa de 8 semanas diseñado para equipos y organizaciones que buscan reducir el estrés, aumentar la productividad y fortalecer las relaciones laborales.",
+      "Programa de 8 semanas para equipos y organizaciones que buscan reducir el estrés, mejorar la productividad y fortalecer la comunicación y el clima laboral.",
     longDesc:
-      "Los encuentros semanales trabajan habilidades esenciales para el entorno corporativo: respiración para gestionar el estrés, empatía y escucha activa, resolución de conflictos desde la calma y creación de un ambiente laboral más humano y motivador.",
+      "Los encuentros semanales se enfocan en habilidades fundamentales para el entorno corporativo: respiración para gestionar el estrés, escucha activa, empatía, resolución de conflictos desde la calma y creación de relaciones laborales más humanas y colaborativas. Un programa diseñado para mejorar el bienestar del equipo y el rendimiento organizacional.",
     image: serviceCorporate,
   },
   {
@@ -64,9 +64,9 @@ const services: Service[] = [
     ctaText: "Quiero este taller",
     whatsappLink: "https://wa.me/34697102947?text=Hola!%20Estoy%20interesado%2Fa%20en%20el%20workshop%20de%20mindfulness%20y%20quisiera%20saber%20m%C3%A1s",
     shortDesc:
-      "Un taller práctico y vivencial, de manera personalizada para grupos o comunidades que quieran integrar mindfulness a su espacio, con técnicas que podrás llevar a tu día a día.",
+      "Un taller práctico y vivencial, ideal para grupos o comunidades que deseen integrar mindfulness en su espacio. Cuatro horas para profundizar en la presencia, la respiración y la conexión con el cuerpo.",
     longDesc:
-      "Este workshop se lleva a cabo en colaboración con lugares de yoga, centros de bienestar o instituciones que buscan brindar a su comunidad una experiencia transformadora. Incluye prácticas de respiración, meditación guiada, ejercicios de atención plena y herramientas para integrar el mindfulness en la vida cotidiana.",
+      "Este workshop se realiza junto a estudios de yoga, centros de bienestar o instituciones que buscan ofrecer a su comunidad una experiencia transformadora. Durante ese tiempo exploramos respiración consciente, escaneo corporal, dinámicas de atención plena y ejercicios de gratitud. Todas las técnicas están diseñadas para ser aplicadas de inmediato en la vida diaria, generando cambios reales y sostenibles.",
     image: serviceWorkshop,
   },
 ];

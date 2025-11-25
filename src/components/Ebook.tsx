@@ -106,7 +106,7 @@ A lo largo del programa aprenderás a:
                     
                 </div>
                 <Button
-                  onClick={() => window.open("https://pay.hotmart.com/D102428798S?checkoutMode=10", "_blank")}
+                  onClick={() => window.open("https://go.hotmart.com/D102428798S", "_blank")}
                   size="lg"
                   className="bg-cta-secondary text-cta-secondary-foreground hover:bg-cta-secondary/90 font-cta font-bold text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 mb-8"
                 >
